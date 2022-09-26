@@ -1,13 +1,69 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableContainer,
+  Button,
+  Paper,
+} from "@mui/material";
+
+const tempData = ["question1", "question2"];
 
 const Home: NextPage = () => {
   return (
     <div>
-      <Typography>環境構築完了</Typography>
+      <Box
+        sx={{
+          backgroundColor: "blue",
+          height: 60,
+        }}
+      >
+        <Typography
+          sx={{
+            color: "white",
+            fontWeight: "bold",
+            fontSize: 20,
+            textAlign: "center",
+            paddingTop: 2,
+          }}
+        >
+          みんなのリファクタリング
+        </Typography>
+      </Box>
+      <TableContainer
+        component={Paper}
+        sx={{ width: "80%", margin: "auto", marginTop: 5 }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                sx={{
+                  width: "80%",
+                }}
+              >
+                問題名
+              </TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tempData.map((value) => (
+              <TableRow>
+                <TableCell>{value}</TableCell>
+                <TableCell>
+                  <Button>移動</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
