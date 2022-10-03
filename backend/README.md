@@ -22,8 +22,8 @@ end
 
 subgraph interface
 subgraph controller
-loginController
-postController
+usersController
+answersController
 end
 subgraph repository
 userRepository
