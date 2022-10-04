@@ -17,13 +17,15 @@ database
 subgraph dao
 userDao
 answerDao
+questionDao
 end
 end
 
 subgraph interface
 subgraph controller
-usersController
-answersController
+userController
+answerController
+questionController
 end
 subgraph repository
 userRepository
@@ -41,6 +43,7 @@ newLogin
 viewQuestionList
 postAnswer
 viewAnswers
+postQuestion
 end
 subgraph repositoryInterface
 end
@@ -48,8 +51,9 @@ end
 
 subgraph domain
 subgraph entity
-users
-answers
+user
+answer
+question
 end
 end
 ```
