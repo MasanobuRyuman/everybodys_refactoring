@@ -1,5 +1,6 @@
 # everybodys_refactoring
 
+開発手法：TDD
 ### バックエンド
 サーバー：AWS EC2
 
@@ -23,5 +24,3 @@ api設計：rest api （OpenAPI)
 
 言語：TypeScript
 
-
-開発手法：TDD
