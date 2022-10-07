@@ -3,10 +3,10 @@ package entity
 import "time" 
 
 type Answer struct {
-	id string 
-	userId string
-  questionId string
-  text string
-	createTime time.Time
-	updateTime time.Time
+	Id string `dynamo:"Id,hash"`
+	UserId string
+  QuestionId string 
+  Text string
+	CreateTime time.Time
+	UpdateTime time.Time
 }
