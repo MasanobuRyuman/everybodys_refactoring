@@ -10,18 +10,8 @@ import (
   "github.com/joho/godotenv"
 )
 
-type Database *dynamo.DB
-
-type DBTable struct {
-  Table dynamo.Table
-}
-
-type DB struct {
-	Database *dynamo.DB
-}
-
-func GetDB() Database{
-	err := godotenv.Load(".env")
+func GetDB() *dynamo.DB{
+	err := godotenv.Load("../../../.env")
 	if err != nil {
 		fmt.Printf("読み込み出来ませんでした: %v", err)
 	} 

@@ -3,9 +3,8 @@ package entity
 import "time" 
 
 type User struct {
-	id string 
-	password string
-  name string
-	createTime time.Time
-	updateTime time.Time
+	Id string `dynamo:"Id,hash"` 
+  Name string
+	CreateTime time.Time
+	UpdateTime time.Time
 }
