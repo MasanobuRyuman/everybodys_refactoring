@@ -2,6 +2,7 @@ package dao
 
 import (
 	"everybodys_refactoring/src/domain/entity"
+	"everybodys_refactoring/src/infrastructure/utility"
 	"github.com/guregu/dynamo"
 	"time"
 )
@@ -16,15 +17,8 @@ func NewAnswerTable(table dynamo.Table) *answerTable {
 	}
 }
 
-type User struct {
-	UserID string `dynamo:"UserID,hash"`
-	Name   string `dynamo:"Name,range"`
-	Age    int    `dynamo:"Age"`
-	Text   string `dynamo:"Text"`
-}
-
-func (db answerTable) Add(id string, userId string, questionId string, text string) (err error) {
-	err = db.table.Put(&entity.Answer{Id: id, UserId: userId, QuestionId: questionId, Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db answerTable) Add(userId string, questionId string, roomId string, text string) (err error) {
+	err = db.table.Put(&entity.Answer{Id: utility.GetUuid(), UserId: userId, QuestionId: questionId, RoomId: roomId, Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 
@@ -38,8 +32,8 @@ func (db answerTable) FindById(id string) (result entity.Answer, err error) {
 	return
 }
 
-func (db answerTable) Update(id string, text string) (err error) {
-	err = db.table.Update("Id", id).Set("Text", text).Set("UpdateTime", time.Now()).Run()
+func (db answerTable) Update(value *entity.Answer) (err error) {
+	err = db.table.Update("Id", value.Id).Set("Text", value.Text).Set("UpdateTime", time.Now()).Run()
 	return
 }
 
