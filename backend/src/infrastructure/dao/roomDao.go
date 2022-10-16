@@ -16,8 +16,8 @@ func NewRoomTable(table dynamo.Table) *roomTable {
 	}
 }
 
-func (db roomTable) Add(id string, name string) (err error) {
-	err = db.table.Put(&entity.User{Id: id, Name: name, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db roomTable) Add() (err error) {
+	err = db.table.Put(&entity.User{Id: , CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 

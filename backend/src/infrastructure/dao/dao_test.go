@@ -9,6 +9,14 @@ import (
 
 var db = infrastructure.GetDB()
 
+/*
+	1.テーブル作成
+	2.データ追加
+	3.データの更新
+	4.データを全て取得
+	5.データを取得
+	6.存在しないデータを取得した時のエラー
+*/
 func Test_AnswerDao(t *testing.T) {
 	err := db.CreateTable("hoge", entity.Answer{}).Run()
 	if err != nil {
@@ -134,4 +142,17 @@ func Test_UserDao(t *testing.T) {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
 	return
+}
+
+func Test_RoomDao(t *testing.T){
+	err := db.CreateTable("hoge", entity.User{}).Run()
+	if err != nil {
+		t.Error(err)
+	}
+	defer db.Table("hoge").DeleteTable().Run()
+	roomDao := dao.NewUserTable(db.Table("hoge"))
+	err = roomDao.Add()
+	if err != nil {
+		t.Error(err)
+	}
 }
