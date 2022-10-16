@@ -2,6 +2,7 @@ package dao
 
 import (
 	"everybodys_refactoring/src/domain/entity"
+	"everybodys_refactoring/src/infrastructure/utility"
 	"github.com/guregu/dynamo"
 	"time"
 )
@@ -23,8 +24,8 @@ type User struct {
 	Text   string `dynamo:"Text"`
 }
 
-func (db answerTable) Add(id string, userId string, questionId string, text string) (err error) {
-	err = db.table.Put(&entity.Answer{Id: id, UserId: userId, QuestionId: questionId, Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db answerTable) Add(userId string,questionId string,roomId string, text string) (err error) {
+	err = db.table.Put(&entity.Answer{Id: utility.GetUuid(), UserId: userId, QuestionId: questionId,RoomId: roomId,Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 

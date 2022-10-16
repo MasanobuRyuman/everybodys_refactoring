@@ -2,6 +2,7 @@ package dao
 
 import (
 	"everybodys_refactoring/src/domain/entity"
+	"everybodys_refactoring/src/infrastructure/utility"
 	"github.com/guregu/dynamo"
 	"time"
 )
@@ -16,8 +17,8 @@ func NewUserTable(table dynamo.Table) *userTable {
 	}
 }
 
-func (db userTable) Add(id string, name string) (err error) {
-	err = db.table.Put(&entity.User{Id: id, Name: name, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db userTable) Add( name string) (err error) {
+	err = db.table.Put(&entity.User{Id: utility.GetUuid(), Name: name, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 
