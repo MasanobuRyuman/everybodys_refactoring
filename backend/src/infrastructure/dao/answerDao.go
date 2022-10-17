@@ -32,8 +32,8 @@ func (db answerTable) FindById(id string) (result entity.Answer, err error) {
 	return
 }
 
-func (db answerTable) Update(id string, text string) (err error) {
-	err = db.table.Update("Id", id).Set("Text", text).Set("UpdateTime", time.Now()).Run()
+func (db answerTable) Update(value *entity.Answer) (err error) {
+	err = db.table.Update("Id", value.Id).Set("Text", value.Text).Set("UpdateTime", time.Now()).Run()
 	return
 }
 

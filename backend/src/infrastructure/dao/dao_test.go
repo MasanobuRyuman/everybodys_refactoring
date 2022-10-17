@@ -4,7 +4,6 @@ import (
 	"everybodys_refactoring/src/domain/entity"
 	"everybodys_refactoring/src/infrastructure"
 	"everybodys_refactoring/src/infrastructure/dao"
-	"fmt"
 	"testing"
 )
 
@@ -25,43 +24,47 @@ func Test_AnswerDao(t *testing.T) {
 	}
 	defer db.Table("hoge").DeleteTable().Run()
 	answerDao := dao.NewAnswerTable(db.Table("hoge"))
+
 	err = answerDao.Add("hogeId", "hogeId", "hogeRoomId", "testText")
 	if err != nil {
 		t.Error(err)
 	}
+
 	err = answerDao.Add("hogeUserId", "hogeId", "hogeRoomId", "testText")
 	if err != nil {
 		t.Error(err)
 	}
-	err = answerDao.Update("hogeId2", "editText")
+
+	answers, err := answerDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-	answer, err := answerDao.FindAll()
-	if err != nil {
-		t.Error(err)
-	}
-	fmt.Printf("%+v\n", answer)
-	if answer[0].UserId != "hogeUserId" || answer[0].QuestionId != "hogeId" || answer[0].Text != "testText" {
+	if len(answers) != 2 {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
-	answer2, err := answerDao.FindById("hogeId2")
+
+	err = answerDao.Update(&entity.Answer{Id: answers[0].Id, UserId: answers[0].UserId, QuestionId: answers[0].QuestionId, Text: "editText"})
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("%+v\n", answer2)
-	if answer2.UserId != "hogeUserId" || answer2.QuestionId != "hogeId" || answer2.Text != "editText" {
+
+	answer, err := answerDao.FindById(answers[0].Id)
+	if err != nil {
+		t.Error(err)
+	}
+	if answer.UserId != answers[0].UserId || answer.Text != "editText" {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
-	err = answerDao.Delete("hogeId2")
+
+	err = answerDao.Delete(answers[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-	answer, err = answerDao.FindAll()
+	answers, err = answerDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-	if len(answer) != 1 {
+	if len(answers) != 1 {
 		t.Error("missing delete")
 	}
 	return

@@ -33,6 +33,6 @@ func (db userTable) FindById(id string) (result entity.User, err error) {
 }
 
 func (db userTable) Update(id string, name string) (err error) {
-	err = db.table.Update("Id", id).Set("Name", name).Run()
+	err = db.table.Update("Id", id).Set("Name", name).Set("UpdateTime", time.Now()).Run()
 	return
 }
