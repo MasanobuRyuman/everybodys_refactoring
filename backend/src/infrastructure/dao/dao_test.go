@@ -77,41 +77,41 @@ func Test_QuestionDao(t *testing.T) {
 	}
 	defer db.Table("hoge").DeleteTable().Run()
 	questionDao := dao.NewQuestionTable(db.Table("hoge"))
-	err = questionDao.Add("testText")
+	err = questionDao.Add(&entity.Question{UserId: "hogeUserId", RoomId: "hogeRoomId", Text: "hogeText"})
 	if err != nil {
 		t.Error(err)
 	}
-	err = questionDao.Add("hogeId")
+	err = questionDao.Add(&entity.Question{UserId: "hogeUserId", RoomId: "hogeRoomId", Text: "hogeText2"})
 	if err != nil {
 		t.Error(err)
 	}
-	err = questionDao.Update("hogeId2", "editText")
+	questions, err := questionDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-	question, err := questionDao.FindAll()
-	if err != nil {
-		t.Error(err)
-	}
-	if question[0].Text != "testText" {
+	if len(questions) != 2 {
 		t.Error("Data integrity failed in Question Dao test")
 	}
-	question2, err := questionDao.FindById("hogeId2")
+	err = questionDao.Update(&entity.Question{Id: questions[0].Id,UserId: questions[0].UserId,RoomId: questions[0].RoomId , Text:"editText"})
+	question, err := questionDao.FindById(questions[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-	if question2.Text != "editText" {
+	if question.Id != question.Id {
 		t.Error("Data integrity failed in Question Dao test")
 	}
-	err = questionDao.Delete("hogeId2")
+	if question.Text != "editText"{
+    t.Error("Question Dao has not been updated")
+	}
+	err = questionDao.Delete(questions[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-	question, err = questionDao.FindAll()
+	questions, err = questionDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-	if len(question) != 1 {
+	if len(questions) != 1 {
 		t.Error("missing delete")
 	}
 	return
