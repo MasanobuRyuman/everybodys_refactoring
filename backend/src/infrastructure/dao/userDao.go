@@ -2,6 +2,8 @@ package dao
 
 import (
 	"everybodys_refactoring/src/domain/entity"
+	"everybodys_refactoring/src/infrastructure/utility"
+	"fmt"
 	"github.com/guregu/dynamo"
 	"time"
 )
@@ -16,8 +18,8 @@ func NewUserTable(table dynamo.Table) *userTable {
 	}
 }
 
-func (db userTable) Add(id string, name string) (err error) {
-	err = db.table.Put(&entity.User{Id: id, Name: name, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db userTable) Add(value *entity.User) (err error) {
+	err = db.table.Put(&entity.User{Id: utility.GetUuid(), Name: value.Name, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 
@@ -31,7 +33,11 @@ func (db userTable) FindById(id string) (result entity.User, err error) {
 	return
 }
 
-func (db userTable) Update(id string,name string)(err error){
-  err = db.table.Update("Id", id).Set("Name",name).Run()
+func (db userTable) Update(value *entity.User) (err error) {
+	if value.Id == "" {
+		err = fmt.Errorf("Error in update method of question dao. \n No id ")
+		return
+	}
+	err = db.table.Update("Id", value.Id).Set("Name", value.Name).Set("UpdateTime", time.Now()).Run()
 	return
 }

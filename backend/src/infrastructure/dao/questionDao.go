@@ -2,6 +2,8 @@ package dao
 
 import (
 	"everybodys_refactoring/src/domain/entity"
+	"everybodys_refactoring/src/infrastructure/utility"
+	"fmt"
 	"github.com/guregu/dynamo"
 	"time"
 )
@@ -16,8 +18,12 @@ func NewQuestionTable(table dynamo.Table) *questionTable {
 	}
 }
 
-func (db questionTable) Add(id string, text string) (err error) {
-	err = db.table.Put(&entity.Question{Id: id, Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db questionTable) Add(value *entity.Question) (err error) {
+	if value.UserId == "" || value.RoomId == "" {
+		err = fmt.Errorf("Error in add method of question dao . \n No UserId or RoomId.")
+		return
+	}
+	err = db.table.Put(&entity.Question{Id: utility.GetUuid(), UserId: value.UserId, RoomId: value.RoomId, Text: value.Text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 
@@ -31,8 +37,11 @@ func (db questionTable) FindById(id string) (result entity.Question, err error) 
 	return
 }
 
-func (db questionTable) Update(id string, text string) (err error) {
-	err = db.table.Update("Id", id).Set("Text", text).Set("UpdateTime", time.Now()).Run()
+func (db questionTable) Update(value *entity.Question) (err error) {
+	if value.Id == "" || value.UserId == "" || value.RoomId == "" {
+		err = fmt.Errorf("Error in add method of question dao. \n No UserId or RoomId.")
+	}
+	err = db.table.Update("Id", value.Id).Set("UserId", value.UserId).Set("RoomId", value.RoomId).Set("Text", value.Text).Set("UpdateTime", time.Now()).Run()
 	return
 }
 

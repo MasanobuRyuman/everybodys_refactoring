@@ -1,10 +1,12 @@
 package entity
 
-import "time" 
+import "time"
 
 type Question struct {
-	Id string `dynamo:"Id,hash"` 
-  Text string
+	Id         string `dynamo:"Id,hash,UUID-index"`
+	UserId     string
+	RoomId     string
+	Text       string
 	CreateTime time.Time
 	UpdateTime time.Time
 }
