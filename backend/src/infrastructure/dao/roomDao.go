@@ -23,7 +23,7 @@ func (db roomTable) Add(value *entity.Room) (err error) {
 		err = fmt.Errorf("Error in add method of question dao. \n No ownerId")
 		return
 	}
-	err = db.table.Put(&entity.Room{Id: utility.GetUuid(),OwnerId: value.OwnerId, IsOpen: true, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+	err = db.table.Put(&entity.Room{Id: utility.GetUuid(), OwnerId: value.OwnerId, IsOpen: true, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 
@@ -38,7 +38,7 @@ func (db roomTable) FindById(id string) (result entity.Room, err error) {
 }
 
 func (db roomTable) Update(value *entity.Room) (err error) {
-	if value.Id == ""{ 
+	if value.Id == "" {
 		err = fmt.Errorf("Error in update method of question dao. \n No id ")
 		return
 	}

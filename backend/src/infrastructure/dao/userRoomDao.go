@@ -12,7 +12,7 @@ type userRoomTable struct {
 	table dynamo.Table
 }
 
-func NewUserRoomTable(table dynamo.Table) *userRoomTable{
+func NewUserRoomTable(table dynamo.Table) *userRoomTable {
 	return &userRoomTable{
 		table: table,
 	}

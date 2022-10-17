@@ -155,11 +155,11 @@ func Test_RoomDao(t *testing.T) {
 	}
 	defer db.Table("hoge").DeleteTable().Run()
 	roomDao := dao.NewRoomTable(db.Table("hoge"))
-	err = roomDao.Add(&entity.Room{OwnerId:"hogeOwnerId"})
+	err = roomDao.Add(&entity.Room{OwnerId: "hogeOwnerId"})
 	if err != nil {
 		t.Error(err)
 	}
-	err = roomDao.Add(&entity.Room{OwnerId:"hogeOwnerId2"})
+	err = roomDao.Add(&entity.Room{OwnerId: "hogeOwnerId2"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -174,64 +174,64 @@ func Test_RoomDao(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	room,err := roomDao.FindById(rooms[0].Id)
+	room, err := roomDao.FindById(rooms[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-  if room.IsOpen {
+	if room.IsOpen {
 		t.Error("Room Dao has not been updated")
 	}
-  err = roomDao.Delete(rooms[0].Id)
+	err = roomDao.Delete(rooms[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
 	rooms, err = roomDao.FindAll()
 	if err != nil {
 		t.Error(err)
-	}	
-	if len(rooms) != 1{
+	}
+	if len(rooms) != 1 {
 		t.Error("missing delete")
 	}
 }
 
-func Test_UserRoomDao(t *testing.T){
+func Test_UserRoomDao(t *testing.T) {
 	err := db.CreateTable("hoge", entity.User{}).Run()
 	if err != nil {
 		t.Error(err)
 	}
 	defer db.Table("hoge").DeleteTable().Run()
-	userRoomDao := dao.NewUserRoomTable(db.Table("hoge"))	
-	err = userRoomDao.Add(&entity.UserRoom{UserId:"hogeUserId",RoomId:"hogeRoomId"})
+	userRoomDao := dao.NewUserRoomTable(db.Table("hoge"))
+	err = userRoomDao.Add(&entity.UserRoom{UserId: "hogeUserId", RoomId: "hogeRoomId"})
 	if err != nil {
 		t.Error(err)
 	}
-	err = userRoomDao.Add(&entity.UserRoom{UserId:"hogeUserId",RoomId:"hogeRoomId2"})
+	err = userRoomDao.Add(&entity.UserRoom{UserId: "hogeUserId", RoomId: "hogeRoomId2"})
 	if err != nil {
 		t.Error(err)
 	}
-	rooms,err := userRoomDao.FindAll()
+	rooms, err := userRoomDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-  if len(rooms) != 2{
+	if len(rooms) != 2 {
 		t.Error("Data integrity failed in UserRoom Dao test")
-	}		
-	room,err := userRoomDao.FindById(rooms[0].Id)
+	}
+	room, err := userRoomDao.FindById(rooms[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-  if room.Id != rooms[0].Id {
+	if room.Id != rooms[0].Id {
 		t.Error("Data integrity failed in Answer Dao test")
-	} 
+	}
 	err = userRoomDao.Delete(rooms[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-	rooms,err = userRoomDao.FindAll()
+	rooms, err = userRoomDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-  if len(rooms) != 1{
+	if len(rooms) != 1 {
 		t.Error("Data integrity failed in UserRoom Dao test")
 	}
 }
