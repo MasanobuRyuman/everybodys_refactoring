@@ -5,6 +5,7 @@ import (
 	"everybodys_refactoring/src/infrastructure"
 	"everybodys_refactoring/src/infrastructure/dao"
 	"testing"
+	"fmt"
 )
 
 var db = infrastructure.GetDB()
@@ -92,16 +93,16 @@ func Test_QuestionDao(t *testing.T) {
 	if len(questions) != 2 {
 		t.Error("Data integrity failed in Question Dao test")
 	}
-	err = questionDao.Update(&entity.Question{Id: questions[0].Id,UserId: questions[0].UserId,RoomId: questions[0].RoomId , Text:"editText"})
+	err = questionDao.Update(&entity.Question{Id: questions[0].Id, UserId: questions[0].UserId, RoomId: questions[0].RoomId, Text: "editText"})
 	question, err := questionDao.FindById(questions[0].Id)
 	if err != nil {
 		t.Error(err)
 	}
-	if question.Id != question.Id {
-		t.Error("Data integrity failed in Question Dao test")
+	if question.Id != questions[0].Id {
+		t.Error("not getting the correct value")
 	}
-	if question.Text != "editText"{
-    t.Error("Question Dao has not been updated")
+	if question.Text != "editText" {
+		t.Error("Question Dao has not been updated")
 	}
 	err = questionDao.Delete(questions[0].Id)
 	if err != nil {
@@ -124,28 +125,81 @@ func Test_UserDao(t *testing.T) {
 	}
 	defer db.Table("hoge").DeleteTable().Run()
 	userDao := dao.NewUserTable(db.Table("hoge"))
-	err = userDao.Add("hogeId")
+	err = userDao.Add(&entity.User{Name: "hogeName"})
 	if err != nil {
 		t.Error(err)
 	}
-	err = userDao.Add("hogeId2")
+	err = userDao.Add(&entity.User{Name: "hogeName2"})
 	if err != nil {
 		t.Error(err)
 	}
-	user, err := userDao.FindAll()
+	users, err := userDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
-	if user[0].Name != "hogeId2" {
+	if len(users) != 2 {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
-	err = userDao.Update("hogeId2", "editName")
+	err = userDao.Update(&entity.User{Id: users[0].Id, Name: "editName"})
 	if err != nil {
 		t.Error(err)
 	}
-	user2, err := userDao.FindById("hogeId2")
-	if user2.Id != "hogeId2" || user2.Name != "editName" {
-		t.Error("Data integrity failed in Answer Dao test")
+	user, err := userDao.FindById(users[0].Id)
+	if err != nil {
+		t.Error(err)
+	}
+	if user.Id != users[0].Id {
+		t.Error("not getting the correct value")
+	}
+	if user.Name != "editName" {
+		t.Error("Question Dao has not been updated")
 	}
 	return
+}
+
+func Test_RoomDao(t *testing.T) {
+	err := db.CreateTable("hoge", entity.User{}).Run()
+	if err != nil {
+		t.Error(err)
+	}
+	defer db.Table("hoge").DeleteTable().Run()
+	roomDao := dao.NewRoomTable(db.Table("hoge"))
+	err = roomDao.Add(&entity.Room{OwnerId:"hogeOwnerId"})
+	if err != nil {
+		t.Error(err)
+	}
+	err = roomDao.Add(&entity.Room{OwnerId:"hogeOwnerId2"})
+	if err != nil {
+		t.Error(err)
+	}
+	rooms, err := roomDao.FindAll()
+	if err != nil {
+		t.Error(err)
+	}
+	if len(rooms) != 2 {
+		t.Error("Data integrity failed in Answer Dao test")
+	}
+	err = roomDao.Update(&entity.Room{Id: rooms[0].Id, IsOpen: false})
+	if err != nil {
+		t.Error(err)
+	}
+	room,err := roomDao.FindById(rooms[0].Id)
+	fmt.Printf("%+v\n",room)
+	if err != nil {
+		t.Error(err)
+	}
+  if room.IsOpen {
+		t.Error("Room Dao has not been updated")
+	}
+  err = roomDao.Delete(rooms[0].Id)
+	if err != nil {
+		t.Error(err)
+	}
+	rooms, err = roomDao.FindAll()
+	if err != nil {
+		t.Error(err)
+	}	
+	if len(rooms) != 1{
+		t.Error("missing delete")		
+	}
 }
