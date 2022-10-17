@@ -4,19 +4,19 @@ import (
 	"everybodys_refactoring/src/domain/entity"
 	"everybodys_refactoring/src/infrastructure"
 	"everybodys_refactoring/src/infrastructure/dao"
-	"testing"
 	"fmt"
+	"testing"
 )
 
 var db = infrastructure.GetDB()
 
 /*
-	1.テーブル作成
-	2.データ追加
-	3.データの更新
-	4.データを全て取得
-	5.データを取得
-	6.存在しないデータを取得した時のエラー
+1.テーブル作成
+2.データ追加
+3.データの更新
+4.データを全て取得
+5.データを取得
+6.存在しないデータを取得した時のエラー
 */
 func Test_AnswerDao(t *testing.T) {
 	err := db.CreateTable("hoge", entity.Answer{}).Run()
@@ -25,11 +25,11 @@ func Test_AnswerDao(t *testing.T) {
 	}
 	defer db.Table("hoge").DeleteTable().Run()
 	answerDao := dao.NewAnswerTable(db.Table("hoge"))
-	err = answerDao.Add("hogeId", "hogeId","hogeRoomId","testText")
+	err = answerDao.Add("hogeId", "hogeId", "hogeRoomId", "testText")
 	if err != nil {
 		t.Error(err)
 	}
-	err = answerDao.Add("hogeUserId", "hogeId","hogeRoomId","testText")
+	err = answerDao.Add("hogeUserId", "hogeId", "hogeRoomId", "testText")
 	if err != nil {
 		t.Error(err)
 	}
@@ -41,7 +41,7 @@ func Test_AnswerDao(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("%+v\n",answer)
+	fmt.Printf("%+v\n", answer)
 	if answer[0].UserId != "hogeUserId" || answer[0].QuestionId != "hogeId" || answer[0].Text != "testText" {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
@@ -49,7 +49,7 @@ func Test_AnswerDao(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Printf("%+v\n",answer2)
+	fmt.Printf("%+v\n", answer2)
 	if answer2.UserId != "hogeUserId" || answer2.QuestionId != "hogeId" || answer2.Text != "editText" {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
@@ -57,7 +57,7 @@ func Test_AnswerDao(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	answer, err = answerDao.FindAll()	
+	answer, err = answerDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
@@ -104,7 +104,7 @@ func Test_QuestionDao(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	question, err = questionDao.FindAll()	
+	question, err = questionDao.FindAll()
 	if err != nil {
 		t.Error(err)
 	}
@@ -133,14 +133,14 @@ func Test_UserDao(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if  user[0].Name != "hogeId2" {
+	if user[0].Name != "hogeId2" {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
-	err = userDao.Update("hogeId2","editName")
+	err = userDao.Update("hogeId2", "editName")
 	if err != nil {
 		t.Error(err)
 	}
-  user2,err := userDao.FindById("hogeId2")
+	user2, err := userDao.FindById("hogeId2")
 	if user2.Id != "hogeId2" || user2.Name != "editName" {
 		t.Error("Data integrity failed in Answer Dao test")
 	}

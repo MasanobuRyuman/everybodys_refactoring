@@ -17,7 +17,7 @@ func NewUserTable(table dynamo.Table) *userTable {
 	}
 }
 
-func (db userTable) Add( name string) (err error) {
+func (db userTable) Add(name string) (err error) {
 	err = db.table.Put(&entity.User{Id: utility.GetUuid(), Name: name, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
@@ -32,7 +32,7 @@ func (db userTable) FindById(id string) (result entity.User, err error) {
 	return
 }
 
-func (db userTable) Update(id string,name string)(err error){
-  err = db.table.Update("Id", id).Set("Name",name).Run()
+func (db userTable) Update(id string, name string) (err error) {
+	err = db.table.Update("Id", id).Set("Name", name).Run()
 	return
 }

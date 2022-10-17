@@ -17,15 +17,8 @@ func NewAnswerTable(table dynamo.Table) *answerTable {
 	}
 }
 
-type User struct {
-	UserID string `dynamo:"UserID,hash"`
-	Name   string `dynamo:"Name,range"`
-	Age    int    `dynamo:"Age"`
-	Text   string `dynamo:"Text"`
-}
-
-func (db answerTable) Add(userId string,questionId string,roomId string, text string) (err error) {
-	err = db.table.Put(&entity.Answer{Id: utility.GetUuid(), UserId: userId, QuestionId: questionId,RoomId: roomId,Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db answerTable) Add(userId string, questionId string, roomId string, text string) (err error) {
+	err = db.table.Put(&entity.Answer{Id: utility.GetUuid(), UserId: userId, QuestionId: questionId, RoomId: roomId, Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 

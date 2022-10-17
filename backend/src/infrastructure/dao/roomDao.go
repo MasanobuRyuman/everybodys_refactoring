@@ -18,7 +18,7 @@ func NewRoomTable(table dynamo.Table) *roomTable {
 }
 
 func (db roomTable) Add() (err error) {
-	err = db.table.Put(&entity.User{Id: utility.GetUuid(), CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+	err = db.table.Put(&entity.Room{Id: utility.GetUuid(), IsOpen: true, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 
@@ -27,12 +27,12 @@ func (db roomTable) FindAll() (results []entity.User, err error) {
 	return
 }
 
-func (db roomTable) FindById(id string) (result entity.User, err error) {
+func (db roomTable) FindById(id string) (result entity.Room, err error) {
 	err = db.table.Get("Id", id).One(&result)
 	return
 }
 
-func (db roomTable) Update(id string,name string)(err error){
-  err = db.table.Update("Id", id).Set("Name",name).Run()
+func (db roomTable) Update(id string, name string) (err error) {
+	err = db.table.Update("Id", id).Set("Name", name).Run()
 	return
 }
