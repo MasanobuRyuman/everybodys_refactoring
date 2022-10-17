@@ -18,6 +18,8 @@ subgraph dao
 userDao
 answerDao
 questionDao
+roomDao
+usrRoomDao
 end
 end
 
@@ -29,7 +31,10 @@ questionController
 end
 subgraph repository
 userRepository
-postRepository
+answerRepository
+questionRepository
+roomRepository
+userRoomRepository
 end
 subgraph daoInterface
 
@@ -44,6 +49,7 @@ viewQuestionList
 postAnswer
 viewAnswers
 postQuestion
+viewRooms
 end
 subgraph repositoryInterface
 end
@@ -54,6 +60,8 @@ subgraph entity
 user
 answer
 question
+room
+userRoom
 end
 end
 ```
