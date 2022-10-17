@@ -1,9 +1,10 @@
 package entity
 
-import "time" 
+import "time"
 
 type Room struct {
-	Id string `dynamo:"Id,hash"` 
+	Id         string `dynamo:"Id,hash"`
+	IsOpen     bool
 	CreateTime time.Time
 	UpdateTime time.Time
 }

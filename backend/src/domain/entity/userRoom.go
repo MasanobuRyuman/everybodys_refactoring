@@ -1,11 +1,11 @@
 package entity
 
-import "time" 
+import "time"
 
 type UserRoom struct {
-	Id string `dynamo:"Id,hash"` 
-	UserId string
-	RoomId string
+	Id         string `dynamo:"Id,hash"`
+	UserId     string
+	RoomId     string
 	CreateTime time.Time
 	UpdateTime time.Time
 }
