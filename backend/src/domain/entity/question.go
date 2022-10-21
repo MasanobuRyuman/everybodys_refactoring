@@ -7,6 +7,7 @@ type Question struct {
 	UserId     string
 	RoomId     string
 	Text       string
+	Code       string
 	CreateTime time.Time
 	UpdateTime time.Time
 }

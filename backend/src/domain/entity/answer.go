@@ -8,6 +8,7 @@ type Answer struct {
 	QuestionId string
 	RoomId     string
 	Text       string
+	Code       string
 	CreateTime time.Time
 	UpdateTime time.Time
 }
