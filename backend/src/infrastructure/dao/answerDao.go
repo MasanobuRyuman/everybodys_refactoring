@@ -3,6 +3,7 @@ package dao
 import (
 	"everybodys_refactoring/src/domain/entity"
 	"everybodys_refactoring/src/infrastructure/utility"
+	"fmt"
 	"github.com/guregu/dynamo"
 	"time"
 )
@@ -17,8 +18,12 @@ func NewAnswerTable(table dynamo.Table) *answerTable {
 	}
 }
 
-func (db answerTable) Add(userId string, questionId string, roomId string, text string) (err error) {
-	err = db.table.Put(&entity.Answer{Id: utility.GetUuid(), UserId: userId, QuestionId: questionId, RoomId: roomId, Text: text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+func (db answerTable) Add(value *entity.Answer) (err error) {
+	if value.UserId == "" || value.QuestionId == "" || value.RoomId == "" {
+		err = fmt.Errorf("Error in add method of question dao . \n No UserId or RoomId.")
+		return
+	}
+	err = db.table.Put(&entity.Answer{Id: utility.GetUuid(), UserId: value.UserId, QuestionId: value.QuestionId, RoomId: value.RoomId, Text: value.Text, Code: value.Code, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 

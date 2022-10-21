@@ -23,7 +23,7 @@ func (db questionTable) Add(value *entity.Question) (err error) {
 		err = fmt.Errorf("Error in add method of question dao . \n No UserId or RoomId.")
 		return
 	}
-	err = db.table.Put(&entity.Question{Id: utility.GetUuid(), UserId: value.UserId, RoomId: value.RoomId, Text: value.Text, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
+	err = db.table.Put(&entity.Question{Id: utility.GetUuid(), UserId: value.UserId, RoomId: value.RoomId, Text: value.Text, Code: value.Code, CreateTime: time.Now(), UpdateTime: time.Now()}).Run()
 	return
 }
 

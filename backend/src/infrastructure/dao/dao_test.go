@@ -17,12 +17,12 @@ func Test_AnswerDao(t *testing.T) {
 	defer db.Table("hoge").DeleteTable().Run()
 	answerDao := dao.NewAnswerTable(db.Table("hoge"))
 
-	err = answerDao.Add("hogeId", "hogeId", "hogeRoomId", "testText")
+	err = answerDao.Add(&entity.Answer{Id: "hogeId", UserId: "hogeId", QuestionId: "hogeRoomId", RoomId: "hogeRoomId", Text: "testText", Code: "<p>test</p>"})
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = answerDao.Add("hogeUserId", "hogeId", "hogeRoomId", "testText")
+	err = answerDao.Add(&entity.Answer{Id: "hogeId", UserId: "hogeId", QuestionId: "hogeRoomId", RoomId: "hogeRoomId", Text: "testText", Code: "<p>test</p>"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -35,7 +35,7 @@ func Test_AnswerDao(t *testing.T) {
 		t.Error("Data integrity failed in Answer Dao test")
 	}
 
-	err = answerDao.Update(&entity.Answer{Id: answers[0].Id, UserId: answers[0].UserId, QuestionId: answers[0].QuestionId, Text: "editText"})
+	err = answerDao.Update(&entity.Answer{Id: answers[0].Id, UserId: answers[0].UserId, QuestionId: answers[0].QuestionId, Text: "editText", Code: answers[0].Code})
 	if err != nil {
 		t.Error(err)
 	}
@@ -69,11 +69,11 @@ func Test_QuestionDao(t *testing.T) {
 	}
 	defer db.Table("hoge").DeleteTable().Run()
 	questionDao := dao.NewQuestionTable(db.Table("hoge"))
-	err = questionDao.Add(&entity.Question{UserId: "hogeUserId", RoomId: "hogeRoomId", Text: "hogeText"})
+	err = questionDao.Add(&entity.Question{UserId: "hogeUserId", RoomId: "hogeRoomId", Text: "hogeText", Code: "<p>test</p>"})
 	if err != nil {
 		t.Error(err)
 	}
-	err = questionDao.Add(&entity.Question{UserId: "hogeUserId", RoomId: "hogeRoomId", Text: "hogeText2"})
+	err = questionDao.Add(&entity.Question{UserId: "hogeUserId", RoomId: "hogeRoomId", Text: "hogeText2", Code: "<p>test</p>"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -84,7 +84,7 @@ func Test_QuestionDao(t *testing.T) {
 	if len(questions) != 2 {
 		t.Error("Data integrity failed in Question Dao test")
 	}
-	err = questionDao.Update(&entity.Question{Id: questions[0].Id, UserId: questions[0].UserId, RoomId: questions[0].RoomId, Text: "editText"})
+	err = questionDao.Update(&entity.Question{Id: questions[0].Id, UserId: questions[0].UserId, RoomId: questions[0].RoomId, Text: "editText", Code: questions[0].Code})
 	question, err := questionDao.FindById(questions[0].Id)
 	if err != nil {
 		t.Error(err)
