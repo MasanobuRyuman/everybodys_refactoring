@@ -1,4 +1,4 @@
-package infrastructure
+package database 
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 )
 
 func GetDB() *dynamo.DB {
-	err := godotenv.Load("../../../.env")
+	err := godotenv.Load("../../../../.env")
 	if err != nil {
 		fmt.Printf("読み込み出来ませんでした: %v", err)
 	}

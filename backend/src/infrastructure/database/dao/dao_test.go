@@ -2,12 +2,12 @@ package dao_test
 
 import (
 	"everybodys_refactoring/src/domain/entity"
-	"everybodys_refactoring/src/infrastructure"
-	"everybodys_refactoring/src/infrastructure/dao"
+	"everybodys_refactoring/src/infrastructure/database"
+	"everybodys_refactoring/src/infrastructure/database/dao"
 	"testing"
 )
 
-var db = infrastructure.GetDB()
+var db = database.GetDB()
 
 func Test_AnswerDao(t *testing.T) {
 	err := db.CreateTable("hoge", entity.Answer{}).Run()
