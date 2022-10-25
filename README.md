@@ -1,4 +1,4 @@
-# everybodys_refactoring
+# refactoring-together
 
 ## 技術選定
 開発手法：TDD
