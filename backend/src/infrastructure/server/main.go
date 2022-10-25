@@ -11,7 +11,7 @@ package main
 
 import (
 	"log"
-	"everybodys_refactoring/src/infrastructure/server/router"
+	"refactoring-together/src/infrastructure/server/router"
 )
 
 func main() {

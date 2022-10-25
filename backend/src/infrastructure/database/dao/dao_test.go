@@ -1,9 +1,9 @@
 package dao_test
 
 import (
-	"everybodys_refactoring/src/domain/entity"
-	"everybodys_refactoring/src/infrastructure/database"
-	"everybodys_refactoring/src/infrastructure/database/dao"
+	"refactoring-together/src/domain/entity"
+	"refactoring-together/src/infrastructure/database"
+	"refactoring-together/src/infrastructure/database/dao"
 	"testing"
 )
 

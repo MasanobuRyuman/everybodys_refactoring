@@ -1,4 +1,4 @@
-module everybodys_refactoring
+module refactoring-together
 
 go 1.19
 

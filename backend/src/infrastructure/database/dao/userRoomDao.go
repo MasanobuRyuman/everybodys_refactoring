@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"everybodys_refactoring/src/domain/entity"
-	"everybodys_refactoring/src/infrastructure/utility"
+	"refactoring-together/src/domain/entity"
+	"refactoring-together/src/infrastructure/utility"
 	"fmt"
 	"github.com/guregu/dynamo"
 	"time"
