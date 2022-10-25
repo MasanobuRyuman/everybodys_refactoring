@@ -1,0 +1,82 @@
+openapi: 3.1.0
+x-stoplight:
+  id: dxkzdi9gjnnpn
+info:
+  title: refactoring-together
+  version: "1.0"
+servers:
+  - url: "http://localhost:3000"
+paths:
+  "/questions/{roomId}":
+    parameters:
+      - schema:
+          type: string
+        name: roomId
+        in: path
+        required: true
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        "200":
+          description: Questions Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roomId:
+                    type: string
+                  questions:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Question"
+              examples: {}
+          headers: {}
+        "404":
+          description: User Not Found
+      operationId: get-room-questions
+      description: get room questions
+components:
+  schemas:
+    Question:
+      title: question
+      type: object
+      description: ""
+      examples:
+        - id: jgoiajgoa
+          userId: gjaeogajieo
+          roomId: gejigjaoegjoag
+          text: todoアプリです
+          code: <p>todoアプリ</p>
+          createTime: date
+          updateTime: date
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given user.
+        userId:
+          type: string
+          description: Unique identifier for the given user.
+        roomId:
+          type: string
+          description: Unique identifier for the given user.
+        text:
+          type: string
+        code:
+          type: string
+        createDate:
+          format: date
+          description: The date that the user was created.
+        updateDate:
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - userId
+        - roomId
+        - text
+        - code
+  securitySchemes: {}
+x-extension-1: null
+x-extension-2: null

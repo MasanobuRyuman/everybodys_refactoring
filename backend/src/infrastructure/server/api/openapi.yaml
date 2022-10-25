@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: refactoring-together
+  version: "1.0"
+servers:
+- url: http://localhost:3000
+paths:
+  /questions/{roomId}:
+    get:
+      description: get room questions
+      operationId: get-room-questions
+      parameters:
+      - explode: false
+        in: path
+        name: roomId
+        required: true
+        schema: {}
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              examples: {}
+              schema:
+                $ref: '#/components/schemas/get_room_questions_200_response'
+          description: Questions Found
+        "404":
+          description: User Not Found
+      summary: Get User Info by User ID
+      tags: []
+    parameters:
+    - explode: false
+      in: path
+      name: roomId
+      required: true
+      schema: {}
+      style: simple
+components:
+  schemas:
+    Question:
+      description: ""
+      example:
+        updateDate: ""
+        code: ""
+        id: ""
+        text: ""
+        userId: ""
+        roomId: ""
+        createDate: ""
+      properties:
+        id:
+          description: Unique identifier for the given user.
+        userId:
+          description: Unique identifier for the given user.
+        roomId:
+          description: Unique identifier for the given user.
+        text: {}
+        code: {}
+        createDate:
+          description: The date that the user was created.
+          format: date
+        updateDate:
+          description: The date that the user was created.
+          format: date
+      required:
+      - code
+      - id
+      - roomId
+      - text
+      - userId
+      title: question
+    get_room_questions_200_response:
+      example:
+        questions:
+        - updateDate: ""
+          code: ""
+          id: ""
+          text: ""
+          userId: ""
+          roomId: ""
+          createDate: ""
+        - updateDate: ""
+          code: ""
+          id: ""
+          text: ""
+          userId: ""
+          roomId: ""
+          createDate: ""
+        roomId: ""
+      properties:
+        roomId: {}
+        questions:
+          items:
+            $ref: '#/components/schemas/Question'
+          type: array
+  securitySchemes: {}
+x-stoplight:
+  id: dxkzdi9gjnnpn
+x-extension-1: null
+x-extension-2: null
