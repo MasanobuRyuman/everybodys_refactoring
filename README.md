@@ -16,6 +16,5 @@
 ### フロントエンド
 
 - サーバー：versel
-- アーキテクチャ：Atomic Design
 - フレームワーク：Next.js
 - 言語：TypeScript
