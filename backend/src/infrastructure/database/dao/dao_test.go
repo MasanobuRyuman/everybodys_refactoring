@@ -1,13 +1,27 @@
 package dao_test
 
 import (
+	"fmt"
+	"os"
 	"refactoring-together/src/domain/entity"
 	"refactoring-together/src/infrastructure/database"
 	"refactoring-together/src/infrastructure/database/dao"
 	"testing"
+
+	"github.com/guregu/dynamo"
+	"github.com/joho/godotenv"
 )
 
-var db = database.GetDB()
+var db *dynamo.DB
+
+func init() {
+	var err = godotenv.Load("../../../../.env")
+	if err != nil {
+		fmt.Printf("読み込み出来ませんでした: %v", err)
+	}
+	var DATABASE_ENDPOINT = os.Getenv("DATABASE_ENDPOINT")
+	db = database.GetDB(DATABASE_ENDPOINT)
+}
 
 func Test_AnswerDao(t *testing.T) {
 	err := db.CreateTable("hoge", entity.Answer{}).Run()
