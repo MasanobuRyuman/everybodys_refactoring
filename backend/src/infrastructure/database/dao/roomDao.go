@@ -1,11 +1,12 @@
 package dao
 
 import (
+	"fmt"
 	"refactoring-together/src/domain/entity"
 	"refactoring-together/src/infrastructure/utility"
-	"fmt"
-	"github.com/guregu/dynamo"
 	"time"
+
+	"github.com/guregu/dynamo"
 )
 
 type roomTable struct {
