@@ -10,12 +10,44 @@
 package router
 
 import (
+	"log"
 	"net/http"
+	"os"
+	"refactoring-together/src/application/usecase"
+	"refactoring-together/src/infrastructure/database"
+	"refactoring-together/src/infrastructure/database/dao"
+	"refactoring-together/src/interface/controller"
 
 	"github.com/gin-gonic/gin"
+	"github.com/guregu/dynamo"
+	"github.com/joho/godotenv"
 )
+
+var questionsTable dynamo.Table
+
+func init() {
+	var err = godotenv.Load("../../../.env")
+	if err != nil {
+		log.Printf("読み込み出来ませんでした: %v", err)
+	}
+	db := database.GetDB(os.Getenv("DATABASE_ENDPOINT"))
+	questionsTable = db.Table("questions")
+}
 
 // GetRoomQuestions - Get User Info by User ID
 func GetRoomQuestions(c *gin.Context) {
-	c.JSON(http.StatusCreated, c.Param("roomId"))
+	roomId := c.Param("roomId")
+	getQuestionsInteractor := new(usecase.GetQuestionInteractor)
+	questionDao := dao.NewQuestionTable(questionsTable)
+	getQuestionsInteractor.QuestionRepository = questionDao
+	getQuestionsHandler := controller.GetQuestionsHandler{}
+	getQuestionsHandler.GetQuestionsHandler = *getQuestionsInteractor
+	questions, err := getQuestionsHandler.GetQuestionsController(roomId)
+
+	if err != nil {
+		log.Printf("%#v", err)
+		c.JSON(http.StatusBadRequest, err)
+	} else {
+		c.JSON(http.StatusCreated, questions)
+	}
 }
