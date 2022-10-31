@@ -4,7 +4,7 @@ import (
 	"refactoring-together/src/domain/entity"
 )
 
-type QuestionDao interface {
+type IQuestionDao interface {
 	Add(value *entity.Question) (err error)
 	FindAll() (results []entity.Question, err error)
 	FindById(id string) (result entity.Question, err error)
@@ -13,16 +13,16 @@ type QuestionDao interface {
 }
 
 type questionDao struct {
-	dao QuestionDao
+	questionDao IQuestionDao
 }
 
-func NewQuestionRepository(dao QuestionDao) *questionDao {
+func NewQuestionRepository(dao IQuestionDao) *questionDao {
 	return &questionDao{
-		dao: dao,
+		questionDao: dao,
 	}
 }
 
 func (dao *questionDao) FindById(id string) (result entity.Question, err error) {
-	result, err = dao.dao.FindById(id)
+	result, err = dao.questionDao.FindById(id)
 	return
 }
