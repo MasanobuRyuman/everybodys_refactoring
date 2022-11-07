@@ -17,6 +17,7 @@ import (
 	"refactoring-together/src/infrastructure/database"
 	"refactoring-together/src/infrastructure/database/dao"
 	"refactoring-together/src/interface/controller"
+	"refactoring-together/src/interface/repository"
 
 	"github.com/gin-gonic/gin"
 	"github.com/guregu/dynamo"
@@ -39,7 +40,8 @@ func GetRoomQuestions(c *gin.Context) {
 	roomId := c.Param("roomId")
 	getQuestionsInteractor := new(usecase.GetQuestionInteractor)
 	questionDao := dao.NewQuestionTable(questionsTable)
-	getQuestionsInteractor.QuestionRepository = questionDao
+	questionRepository := repository.NewQuestionRepository(questionDao)
+	getQuestionsInteractor.QuestionRepository = questionRepository
 	getQuestionsHandler := controller.GetQuestionsHandler{}
 	getQuestionsHandler.GetQuestionsHandler = *getQuestionsInteractor
 	questions, err := getQuestionsHandler.GetQuestionsController(roomId)

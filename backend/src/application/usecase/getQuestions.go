@@ -10,6 +10,6 @@ type GetQuestionInteractor struct {
 }
 
 func (interactor *GetQuestionInteractor) GetQuestions(id string) (questions entity.Question, err error) {
-	questions, err = interactor.QuestionRepository.FindById(id)
+	questions, err = interactor.QuestionRepository.FindByRoomId(id)
 	return
 }

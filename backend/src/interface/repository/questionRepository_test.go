@@ -40,7 +40,7 @@ func Test_FindById(t *testing.T) {
 		t.Error(err)
 	}
 	questionRepository := repository.NewQuestionRepository(questionDao)
-	question, err := questionRepository.FindById(questions[0].Id)
+	question, err := questionRepository.FindByRoomId(questions[0].Id)
 	if err != nil {
 		t.Error(err)
 	}

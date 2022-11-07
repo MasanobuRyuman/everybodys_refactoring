@@ -8,6 +8,7 @@ import (
 	"refactoring-together/src/infrastructure/database"
 	"refactoring-together/src/infrastructure/database/dao"
 	"refactoring-together/src/interface/controller"
+	"refactoring-together/src/interface/repository"
 	"testing"
 
 	"github.com/guregu/dynamo"
@@ -39,8 +40,9 @@ func Test_getQuestionsController(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	questionRepository := repository.NewQuestionRepository(questionDao)
 	getQuestionsInteractor := new(usecase.GetQuestionInteractor)
-	getQuestionsInteractor.QuestionRepository = questionDao
+	getQuestionsInteractor.QuestionRepository = questionRepository
 	getQuestionsHandler := controller.GetQuestionsHandler{}
 	getQuestionsHandler.GetQuestionsHandler = *getQuestionsInteractor
 	question, err := getQuestionsHandler.GetQuestionsController(questions[0].Id)

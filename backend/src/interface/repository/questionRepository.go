@@ -2,27 +2,20 @@ package repository
 
 import (
 	"refactoring-together/src/domain/entity"
+	"refactoring-together/src/interface/repository/daoInterface"
 )
 
-type IQuestionDao interface {
-	Add(value *entity.Question) (err error)
-	FindAll() (results []entity.Question, err error)
-	FindById(id string) (result entity.Question, err error)
-	Update(value *entity.Question) (err error)
-	Delete(id string) (err error)
-}
-
 type questionDao struct {
-	questionDao IQuestionDao
+	questionDao daoInterface.IQuestionDao
 }
 
-func NewQuestionRepository(dao IQuestionDao) *questionDao {
+func NewQuestionRepository(dao daoInterface.IQuestionDao) *questionDao {
 	return &questionDao{
 		questionDao: dao,
 	}
 }
 
-func (dao *questionDao) FindById(id string) (result entity.Question, err error) {
+func (dao *questionDao) FindByRoomId(id string) (result entity.Question, err error) {
 	result, err = dao.questionDao.FindById(id)
 	return
 }
